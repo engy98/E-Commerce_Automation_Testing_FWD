@@ -12,23 +12,14 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 public class FilterWithColorStepDefinition {
-    WebDriver driver;
-    LoginPage loginPage;
-    UserAccountPage page;
+    Hooks hook=new Hooks();
+    LoginPage loginPage=new LoginPage(hook.driver);
+    UserAccountPage page=new UserAccountPage(hook.driver);
 
-    @Before("@fil")
-    public void openBrowser(){
-        String chromePath =System.getProperty("user.dir")+"\\src\\chromedriver.exe";
-        System.setProperty("webdriver.chrome.driver", chromePath);
-        driver=new ChromeDriver();
-        driver.manage().window().maximize();
-        loginPage=new LoginPage(driver);
-        page=new UserAccountPage(driver);
-    }
 
     @Given("User Login")
     public void login() throws InterruptedException {
-        driver.navigate().to("https://demo.nopcommerce.com/login");
+        hook.driver.navigate().to("https://demo.nopcommerce.com/login");
         Thread.sleep(2000);
         loginPage.enterEmail("a@a.com");
         loginPage.enterPassword("12345678");
@@ -50,8 +41,4 @@ public class FilterWithColorStepDefinition {
         page.checkColor(color);
     }
 
-    @After("#fil")
-    public void closeBrowser(){
-        this.driver.quit();
-    }
 }

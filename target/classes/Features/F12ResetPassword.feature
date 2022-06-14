@@ -5,6 +5,6 @@ Feature: User could reset his/her password
   Scenario: User could reset his/her password successfully
     Given User navigates to login page
     When User press forgot password button
-    And User enters his valid email "a@v.com"
+    And User enters his valid email "a@a.com"
     And User press recover button
     Then User see success message "Email with instructions has been sent to you."

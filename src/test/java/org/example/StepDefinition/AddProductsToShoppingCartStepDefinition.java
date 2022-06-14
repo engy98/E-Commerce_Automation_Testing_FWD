@@ -12,23 +12,14 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 public class AddProductsToShoppingCartStepDefinition {
-    WebDriver driver;
-    LoginPage loginPage;
-    UserAccountPage page;
+    Hooks hook=new Hooks();
+    LoginPage loginPage=new LoginPage(hook.driver);
+    UserAccountPage page=new UserAccountPage(hook.driver);
 
-    @Before("@shop")
-    public void openBrowser(){
-        String chromePath =System.getProperty("user.dir")+"\\src\\chromedriver.exe";
-        System.setProperty("webdriver.chrome.driver", chromePath);
-        driver=new ChromeDriver();
-        driver.manage().window().maximize();
-        loginPage=new LoginPage(driver);
-        page=new UserAccountPage(driver);
-    }
 
     @Given("User login to app")
     public void login() throws InterruptedException {
-        driver.navigate().to("https://demo.nopcommerce.com/login");
+        hook.driver.navigate().to("https://demo.nopcommerce.com/login");
         Thread.sleep(2000);
         loginPage.enterEmail("a@a.com");
         loginPage.enterPassword("12345678");
@@ -63,8 +54,6 @@ public class AddProductsToShoppingCartStepDefinition {
     public void checkProducts(String p1,String p2){
         page.checkShoppingCart(p1,p2);
     }
-    @After("@shop")
-    public void closeBrowser(){
-        this.driver.quit();
-    }
+
+
 }

@@ -20,6 +20,10 @@ public class UserAccountPage {
     public UserAccountPage(WebDriver driver){
         this.driver=driver;
         PageFactory.initElements(driver,this);
+        if (driver==null){
+            System.out.println("co");
+        }
+
     }
 
     @FindBy(id = "small-searchterms")
@@ -292,6 +296,9 @@ public class UserAccountPage {
         Thread.sleep(2000);
     }
     public void followUs(String media) throws InterruptedException {
+        if (driver==null){
+            System.out.println("null");
+        }
         driver.findElement(By.linkText(media)).click();
         Thread.sleep(2000);
     }

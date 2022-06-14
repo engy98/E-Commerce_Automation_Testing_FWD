@@ -18,24 +18,15 @@ import org.testng.asserts.SoftAssert;
 import java.time.Duration;
 
 public class AddProductToWishlistStepDefinition {
-    WebDriver driver;
-    LoginPage loginPage;
-    UserAccountPage page;
+    Hooks hook=new Hooks();
+    LoginPage loginPage=new LoginPage(hook.driver);
+    UserAccountPage page=new UserAccountPage(hook.driver);
 
-    @Before("@wish")
-    public void openBrowser(){
-        String chromePath =System.getProperty("user.dir")+"\\src\\chromedriver.exe";
-        System.setProperty("webdriver.chrome.driver", chromePath);
-        driver=new ChromeDriver();
-        driver.manage().window().maximize();
-        loginPage=new LoginPage(driver);
-        page=new UserAccountPage(driver);
-    }
 
 
     @Given("^User add a product \"(.*)\" to his wishlist$")
     public void addProduct(String pro) throws InterruptedException {
-        driver.navigate().to("https://demo.nopcommerce.com/");
+        hook.driver.navigate().to("https://demo.nopcommerce.com/");
         page.addProductToWishList(pro);
     }
 
@@ -43,8 +34,8 @@ public class AddProductToWishlistStepDefinition {
    public void checkMsg(String msg) throws InterruptedException {
        SoftAssert soft=new SoftAssert();
        Thread.sleep(1000);
-       soft.assertTrue(driver.findElement(By.id("bar-notification")).getText().contains(msg),"msg");
-       String color=driver.findElement(By.xpath("/html/body/div[5]/div")).getCssValue("background-color");
+       soft.assertTrue(hook.driver.findElement(By.id("bar-notification")).getText().contains(msg),"msg");
+       String color=hook.driver.findElement(By.xpath("/html/body/div[5]/div")).getCssValue("background-color");
        soft.assertTrue(Color.fromString(color).asHex().equals("#4bb07a"),"color");
        soft.assertAll();
 
@@ -52,16 +43,13 @@ public class AddProductToWishlistStepDefinition {
 
     @When("user open wishlist")
     public void openWishlist(){
-        WebDriverWait wait=new WebDriverWait(driver, Duration.ofSeconds(10000));
-        wait.until(ExpectedConditions.invisibilityOf(driver.findElement(By.id("bar-notification"))));
+        WebDriverWait wait=new WebDriverWait(hook.driver, Duration.ofSeconds(10000));
+        wait.until(ExpectedConditions.invisibilityOf(hook.driver.findElement(By.id("bar-notification"))));
         page.goToWishlist();
     }
     @Then("^the product exist in wishlist \"(.*)\"$")
     public void checkWishlist(String p){
         page.checkWishlist(p);
     }
-    @After("@wish")
-    public void closeBrowser(){
-        this.driver.quit();
-    }
+
 }

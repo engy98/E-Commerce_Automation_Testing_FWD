@@ -12,25 +12,15 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 public class ResetPasswordStepDefinition {
-    WebDriver driver;
-    LoginPage loginpage;
-    ResetPasswordPage page;
+    Hooks hook=new Hooks();
+    LoginPage loginpage=new LoginPage(hook.driver);
+    ResetPasswordPage page=new ResetPasswordPage(hook.driver);
 
-    @Before("@res")
-    public void openBrowser(){
-
-        String chromePath =System.getProperty("user.dir")+"\\src\\chromedriver.exe";
-        System.setProperty("webdriver.chrome.driver", chromePath);
-        driver=new ChromeDriver();
-        driver.manage().window().maximize();
-        loginpage=new LoginPage(driver);
-        page=new ResetPasswordPage(driver);
-    }
 
     @Given("User navigates to login page")
     public void navigatesToLoginPage () throws InterruptedException {
 
-        driver.navigate().to("https://demo.nopcommerce.com/login");
+        hook.driver.navigate().to("https://demo.nopcommerce.com/login");
         Thread.sleep(2000);
     }
 
@@ -53,8 +43,4 @@ public class ResetPasswordStepDefinition {
         page.checkSuccessMsg(msg);
     }
 
-    @After("@res")
-    public void closeBrowser(){
-        this.driver.quit();
-    }
 }

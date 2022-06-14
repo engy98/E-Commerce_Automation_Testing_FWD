@@ -9,6 +9,7 @@ org\example\Pages\RegistrationPage.class
 org\example\StepDefinition\AddProductToCompareListStepDefinition.class
 org\example\StepDefinition\FollowUsStepDefinition.class
 org\example\StepDefinition\CreateSuccessfulOrderStepDefinition.class
+org\example\StepDefinition\Hooks.class
 org\example\StepDefinition\RegisterStepDefinition.class
 org\example\StepDefinition\SelectCategoryStepDefinition.class
 org\example\StepDefinition\FilterWithColorStepDefinition.class

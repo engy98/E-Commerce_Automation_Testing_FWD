@@ -1,5 +1,6 @@
 package org.example.Pages;
 
+import org.example.StepDefinition.Hooks;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -8,7 +9,9 @@ import org.testng.Assert;
 
 public class LoginPage {
 
-        WebDriver driver;
+       WebDriver driver;
+    Hooks hook=new Hooks();
+
 
         public LoginPage(WebDriver driver){
             this.driver=driver;

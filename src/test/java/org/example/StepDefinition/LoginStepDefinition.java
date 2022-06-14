@@ -15,23 +15,14 @@ import org.testng.asserts.SoftAssert;
 
 
 public class LoginStepDefinition {
-    WebDriver driver;
-    LoginPage page;
+    Hooks hook=new Hooks();
+    LoginPage page=new LoginPage(hook.driver);
 
-    @Before("@logi")
-    public void openBrowser(){
-
-        String chromePath =System.getProperty("user.dir")+"\\src\\chromedriver.exe";
-        System.setProperty("webdriver.chrome.driver", chromePath);
-        driver=new ChromeDriver();
-        driver.manage().window().maximize();
-        page=new LoginPage(driver);
-    }
 
     @Given("User navigates to the login page")
     public void navigate() throws InterruptedException {
 
-        driver.navigate().to("https://demo.nopcommerce.com/login");
+        hook.driver.navigate().to("https://demo.nopcommerce.com/login");
         Thread.sleep(2000);
     }
 
@@ -57,24 +48,20 @@ public class LoginStepDefinition {
     @Then("user login to the system successfully")
     public void checkValidLogin(){
         SoftAssert soft=new SoftAssert();
-        soft.assertTrue(driver.getCurrentUrl().equals("https://demo.nopcommerce.com/"));
-        soft.assertTrue(driver.findElement(By.className("ico-account")).isDisplayed());
+        soft.assertTrue(hook.driver.getCurrentUrl().equals("https://demo.nopcommerce.com/"));
+        soft.assertTrue(hook.driver.findElement(By.className("ico-account")).isDisplayed());
         soft.assertAll();
 
     }
     @Then("user could not login to the system successfully")
     public void checkInvalidLogin(){
         SoftAssert soft=new SoftAssert();
-        soft.assertTrue(driver.findElement(By.className("message-error")).getText().contains("Login was unsuccessful."));
-        String col=driver.findElement(By.className("message-error")).getCssValue("color");
+        soft.assertTrue(hook.driver.findElement(By.className("message-error")).getText().contains("Login was unsuccessful."));
+        String col=hook.driver.findElement(By.className("message-error")).getCssValue("color");
         soft.assertTrue(Color.fromString(col).asHex().equals("#e4434b"));
         soft.assertAll();
 
     }
 
 
-    @After("@logi")
-    public void closeDriver(){
-        this.driver.quit();
-}
 }

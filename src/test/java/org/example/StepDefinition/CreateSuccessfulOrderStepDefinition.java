@@ -13,26 +13,15 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 public class CreateSuccessfulOrderStepDefinition {
-    WebDriver driver;
-    LoginPage loginpage;
-    UserAccountPage page;
-    PaymentPage payPage;
+    Hooks hook=new Hooks();
+    LoginPage loginpage=new LoginPage(hook.driver);
+    UserAccountPage page=new UserAccountPage(hook.driver);
+    PaymentPage payPage=new PaymentPage(hook.driver);
 
-    @Before("@suc")
-    public void openBrowser(){
-
-        String chromePath =System.getProperty("user.dir")+"\\src\\chromedriver.exe";
-        System.setProperty("webdriver.chrome.driver", chromePath);
-        driver=new ChromeDriver();
-        driver.manage().window().maximize();
-        loginpage=new LoginPage(driver);
-        page=new UserAccountPage(driver);
-        payPage=new PaymentPage(driver);
-    }
 
     @Given("User Log In")
     public void navigate() throws InterruptedException {
-        driver.navigate().to("https://demo.nopcommerce.com/login");
+        hook.driver.navigate().to("https://demo.nopcommerce.com/login");
         Thread.sleep(2000);
         loginpage.enterEmail("a@a.com");
         loginpage.enterPassword("12345678");
@@ -71,8 +60,5 @@ public class CreateSuccessfulOrderStepDefinition {
     public void check(){
         payPage.checkTitle();
     }
-    @After("@suc")
-    public void closeDriver(){
-        driver.quit();
-    }
+
 }

@@ -10,9 +10,7 @@ import  org.openqa.selenium.support.ui.Select;
 public class RegistrationPage {
 
     WebDriver driver;
-   // Select day;
-   // Select month;
-   // Select year;
+
     public RegistrationPage(WebDriver driver){
         this.driver=driver;
 

@@ -14,25 +14,16 @@ import org.testng.asserts.SoftAssert;
 
 public class RegisterStepDefinition {
 
-    WebDriver driver;
-    RegistrationPage page;
+    Hooks hook=new Hooks();
+    RegistrationPage page=new RegistrationPage(hook.driver);
 
-    @Before("@reg")
-    public void openBrowser(){
-
-        String chromePath =System.getProperty("user.dir")+"\\src\\chromedriver.exe";
-        System.setProperty("webdriver.chrome.driver", chromePath);
-        driver=new ChromeDriver();
-        driver.manage().window().maximize();
-        page=new RegistrationPage(driver);
-    }
 
     @Given("User navigates to the registration page")
     public void navigate() throws InterruptedException {
 
-        driver.navigate().to("https://demo.nopcommerce.com/");
+        hook.driver.navigate().to("https://demo.nopcommerce.com/");
         Thread.sleep(2000);
-        driver.findElement((By.className("ico-register"))).click();
+        hook.driver.findElement((By.className("ico-register"))).click();
         Thread.sleep(2000);
     }
 
@@ -87,14 +78,9 @@ public class RegisterStepDefinition {
     @Then("success message is displayed")
     public void checkMsg(){
         SoftAssert soft=new SoftAssert();
-        soft.assertTrue(driver.findElement(By.className("result")).getText().contains("Your registration completed"),"success msg assertion");
-        soft.assertTrue(driver.findElement(By.className("result")).getCssValue("color").equals("rgba(76, 177, 124, 1)"));
+        soft.assertTrue(hook.driver.findElement(By.className("result")).getText().contains("Your registration completed"),"success msg assertion");
+        soft.assertTrue(hook.driver.findElement(By.className("result")).getCssValue("color").equals("rgba(76, 177, 124, 1)"));
         soft.assertAll();
     }
 
-
-    @After("@reg")
-    public void closeDriver(){
-        this.driver.quit();
-    }
 }

@@ -14,6 +14,7 @@ D:\E_Commerce\src\test\java\org\example\StepDefinition\SelectCategoryStepDefinit
 D:\E_Commerce\src\test\java\org\example\Runner\TestRunner.java
 D:\E_Commerce\src\test\java\org\example\StepDefinition\LoginStepDefinition.java
 D:\E_Commerce\src\test\java\org\example\StepDefinition\FilterWithColorStepDefinition.java
+D:\E_Commerce\src\test\java\org\example\StepDefinition\Hooks.java
 D:\E_Commerce\src\test\java\org\example\StepDefinition\SwitchCurrenciesStepDefinition.java
 D:\E_Commerce\src\test\java\org\example\StepDefinition\CreateSuccessfulOrderStepDefinition.java
 D:\E_Commerce\src\test\java\org\example\StepDefinition\RegisterStepDefinition.java

@@ -11,34 +11,21 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 
 public class HomeSliderStepDef {
-    WebDriver driver;
-    LoginPage loginpage;
-    UserAccountPage page;
+    Hooks  hook=new Hooks();
+    LoginPage loginpage=new LoginPage(hook.driver);
+    UserAccountPage page=new UserAccountPage(hook.driver);
 
-    @Before("@slid")
-    public void openBrowser(){
 
-        String chromePath =System.getProperty("user.dir")+"\\src\\chromedriver.exe";
-        System.setProperty("webdriver.chrome.driver", chromePath);
-        driver=new ChromeDriver();
-        driver.manage().window().maximize();
-        loginpage=new LoginPage(driver);
-        page=new UserAccountPage(driver);
-    }
     @Given("^user clicks on the slider \"(.*)\"$")
     public void clickSlider(String num){
-        driver.navigate().to("https://demo.nopcommerce.com/");
+        hook.driver.navigate().to("https://demo.nopcommerce.com/");
         page.getSlider(Integer.parseInt(num));
     }
     @Then("^the url will be changed \"(.*)\"$")
     public void checkUrl(String url){
 
-        Assert.assertTrue(driver.getCurrentUrl().contains(url));
+        Assert.assertTrue(hook.driver.getCurrentUrl().contains(url));
     }
-    @After("@slid")
-    public void closeBrowser(){
 
-        driver.quit();
-    }
 
 }

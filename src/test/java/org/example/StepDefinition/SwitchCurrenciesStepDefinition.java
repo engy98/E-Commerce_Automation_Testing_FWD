@@ -16,20 +16,10 @@ import org.testng.Assert;
 import java.util.List;
 
 public class SwitchCurrenciesStepDefinition {
-    WebDriver driver;
-    LoginPage loginpage;
-    UserAccountPage page;
+    Hooks hook=new Hooks();
+    LoginPage loginpage=new LoginPage(hook.driver);
+    UserAccountPage page=new UserAccountPage(hook.driver);
 
-    @Before("@cur")
-    public void openBrowser(){
-
-        String chromePath =System.getProperty("user.dir")+"\\src\\chromedriver.exe";
-        System.setProperty("webdriver.chrome.driver", chromePath);
-        driver=new ChromeDriver();
-        driver.manage().window().maximize();
-        loginpage=new LoginPage(driver);
-        page=new UserAccountPage(driver);
-    }
 
 
 
@@ -43,23 +33,19 @@ public class SwitchCurrenciesStepDefinition {
 
     @Given("^User press the currencies list and Select the \"(.*)\" currency$")
     public void pressCurrenciesList(String cur){
-        driver.navigate().to("https://demo.nopcommerce.com/");
+        hook.driver.navigate().to("https://demo.nopcommerce.com/");
         page.pressCurrenciesList(cur);
     }
 
 
     @Then("^The currency of the prices of the products will be \"(.*)\"$")
     public void checkCurrency(String currency){
-        int count=driver.findElements(By.className("actual-price")).size();
-        List<WebElement> prices=driver.findElements(By.className("actual-price"));
+        int count=hook.driver.findElements(By.className("actual-price")).size();
+        List<WebElement> prices=hook.driver.findElements(By.className("actual-price"));
 
         for (int i=0;i<count;i++){
             Assert.assertTrue(prices.get(i).getText().contains(currency));
         }
     }
 
-    @After("@cur")
-    public void closeDriver(){
-        this.driver.quit();
-    }
 }

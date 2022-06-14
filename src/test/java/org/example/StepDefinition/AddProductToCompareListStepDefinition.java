@@ -13,22 +13,14 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 public class AddProductToCompareListStepDefinition {
-    WebDriver driver;
-    LoginPage loginPage;
-    UserAccountPage page;
+    Hooks hook=new Hooks();
+    LoginPage loginPage=new LoginPage(hook.driver);
+    UserAccountPage page=new UserAccountPage(hook.driver);
 
-    @Before("@compare")
-    public void openBrowser(){
-        String chromePath =System.getProperty("user.dir")+"\\src\\chromedriver.exe";
-        System.setProperty("webdriver.chrome.driver", chromePath);
-        driver=new ChromeDriver();
-        driver.manage().window().maximize();
-        loginPage=new LoginPage(driver);
-        page=new UserAccountPage(driver);
-    }
+
     @Given("login to the app")
     public void login() throws InterruptedException {
-        driver.navigate().to("https://demo.nopcommerce.com/login");
+        hook.driver.navigate().to("https://demo.nopcommerce.com/login");
         Thread.sleep(2000);
         loginPage.enterEmail("a@a.com");
         loginPage.enterPassword("12345678");
@@ -52,15 +44,12 @@ public class AddProductToCompareListStepDefinition {
     }
     @And("User open compare list")
     public void openComparelist() throws InterruptedException {
-        driver.findElement(By.linkText("product comparison")).click();
+        hook.driver.findElement(By.linkText("product comparison")).click();
         Thread.sleep(2000);
     }
     @Then("^User see the products \"(.*)\" and \"(.*)\" in the compare list$")
     public void checkCompareList(String p1,String p2){
         page.checkCompareList(p1,p2);
     }
-    @After("@compare")
-    public void closeBrowser(){
-        this.driver.quit();
-    }
+
 }
